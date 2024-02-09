@@ -18,10 +18,12 @@ extension UIViewController: presenterVCProtocol {
     
     func setUpBackButton() {
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"),
-                                                           style: .done,
-                                                           target: self,
-                                                           action: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .done,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
         navigationItem.leftBarButtonItem?.tintColor = .appColor.primary
 
     }

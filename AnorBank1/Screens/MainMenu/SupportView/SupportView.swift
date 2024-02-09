@@ -28,24 +28,33 @@ final class SupportView: UIView {
     }
     
     private func createLayout() -> UICollectionViewLayout {
-        
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            
-            let section: NSCollectionLayoutSection
-            
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(150))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            group.contentInsets = .init(top: 10, leading: 10, bottom: 0, trailing: 10)
-            
-            section = NSCollectionLayoutSection(group: group)
-            
-            return section
-        }
-        return layout
+        let compositionalLayout = UICollectionViewCompositionalLayout.createLayoutCustom(
+            itemWidth: .fractionalWidth(1.0),
+            itemHeight: .fractionalHeight(1.0),
+            groupWidth: .absolute(UIScreen.main.bounds.width),
+            groupHeight: .absolute(150),
+            groupContentInsert: .init(top: 10, leading: 10, bottom: 0, trailing: 10)
+        )
+        return compositionalLayout
     }
+        
+//        let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+//
+//            let section: NSCollectionLayoutSection
+//
+//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//
+//            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(150))
+//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+//            group.contentInsets = .init(top: 10, leading: 10, bottom: 0, trailing: 10)
+//
+//            section = NSCollectionLayoutSection(group: group)
+//
+//            return section
+//        }
+//        return layout
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

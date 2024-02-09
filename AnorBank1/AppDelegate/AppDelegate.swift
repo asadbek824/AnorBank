@@ -17,14 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TabBarItemData(image: "creditcard", title: "Cards", type: CardsViewController(presenter: CardsPresenter())),
         TabBarItemData(image: "case", title: "Payment", type: PaymentViewController(presenter: PaymentPresenter())),
         TabBarItemData(image: "clock.arrow.circlepath", title: "Monitoring", type: MonitoringViewController(presenter: MonitoringPresenter())),
-        TabBarItemData(image: "square.split.2x2", title: "All services", type: AllServicesViewController()),
+        TabBarItemData(image: "square.split.2x2", title: "All services", type: AllServicesViewController(presenter: AllServicesPresenter())),
     ]
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let tabBarVC = UITabBarController()
         tabBarVC.viewControllers = createTabBarItems(tabBarItems: tabBarItemsData)
-        tabBarVC.selectedIndex = 3
+        tabBarVC.selectedIndex = 0 
         tabBarVC.tabBar.backgroundColor = .white
         tabBarVC.tabBar.tintColor = .appColor.primary
         tabBarVC.tabBar.layer.cornerRadius = 20

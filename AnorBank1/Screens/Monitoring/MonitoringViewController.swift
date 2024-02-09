@@ -63,6 +63,10 @@ extension MonitoringViewController {
 
 extension MonitoringViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        presenter.numberOfSections(in: tableView)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         presenter.tableView(tableView, numberOfRowsInSection: section)
     }
@@ -71,7 +75,15 @@ extension MonitoringViewController: UITableViewDelegate, UITableViewDataSource {
         presenter.tableView(tableView, cellForRowAt: indexPath)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 
-        80
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        presenter.tableView(tableView, heightForRowAt: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        presenter.tableView(tableView, viewForHeaderInSection: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        presenter.tableView(tableView, heightForHeaderInSection: section)
     }
 }

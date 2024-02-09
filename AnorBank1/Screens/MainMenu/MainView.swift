@@ -36,7 +36,10 @@ final class MainView: UIView {
     //MARK: - UIElements
     lazy var collectionView: UICollectionView = {
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout(
+            sectionStates: Array(repeating: false, count: MainViewSectionTypes.allCases.count),
+            sectionIndex: .zero)
+        )
         
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -62,7 +65,7 @@ final class MainView: UIView {
         setUpCollectinView()
     }
     
-    private func createLayout() -> UICollectionViewLayout {
+    func createLayout(sectionStates: [Bool], sectionIndex: Int) -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout{ (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
@@ -72,9 +75,6 @@ final class MainView: UIView {
             
             switch sectionType {
             case .transferView:
-                
-                
-                
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constants.fractionalWidthTransferView), heightDimension: .fractionalHeight(Constants.fractionalHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = Constants.transferItemContentInset
@@ -91,10 +91,6 @@ final class MainView: UIView {
                 section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .none
                 section.boundarySupplementaryItems = [sectionHeader]
-                
-                
-                
-                
             case .becomecCliennt:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constants.fractionalWidth), heightDimension: .fractionalHeight(Constants.fractionalHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -113,14 +109,19 @@ final class MainView: UIView {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = Constants.itemContentInsetsPromtView
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(Constants.groupWidthDimensionPV), heightDimension: .absolute(Constants.groupHeightDimensionPV))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                
                 let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constants.fractionalWidth), heightDimension: .absolute(Constants.headerHeightDimensionPV))
                 let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: headerFooterSize,
                     elementKind: UICollectionView.elementKindSectionHeader,
                     alignment: .top)
+                
+                let groupSize: NSCollectionLayoutSize
+                if sectionStates[sectionIndex] {
+                    groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0))
+                } else {
+                    groupSize = NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(190))
+                }
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let bacgroundDecaration = NSCollectionLayoutDecorationItem.background(elementKind: "backgroundWhite")
                 bacgroundDecaration.contentInsets = Constants.bDContentInsetsPV
@@ -134,7 +135,12 @@ final class MainView: UIView {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = Constants.itemContentInsets
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(Constants.cashbackAbsolute))
+                let groupSize: NSCollectionLayoutSize
+                if sectionStates[sectionIndex] {
+                    groupSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(0))
+                } else {
+                    groupSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(130))
+                }
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constants.fractionalWidth), heightDimension: .absolute(Constants.headerHeightDimensionPV))

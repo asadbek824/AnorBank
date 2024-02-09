@@ -14,6 +14,10 @@ final class MainMenuViewController: UIViewController {
     private let presenter: MainViewPresenterable
     private let mainReesableView = MainBalanceReusableView()
     
+    lazy var sectionStates: [Bool] = {
+        return [Bool](repeating: false, count: MainViewSectionTypes.allCases.count)
+    }()
+    
     init(presenter: MainViewPresenterable) {
         self.presenter = presenter
         
@@ -53,6 +57,20 @@ final class MainMenuViewController: UIViewController {
     @objc private func rightMassageBarButtonTapped() {
         
         pushVC(with: SupportViewController())
+    }
+    
+    func toggleSection(at sectionIndex: Int) {
+        // Инвертируем состояние секции
+        sectionStates[sectionIndex].toggle()
+        let layout = mainView.createLayout(sectionStates: sectionStates, sectionIndex: sectionIndex)
+        mainView.collectionView.setCollectionViewLayout(layout, animated: true)
+        
+        // Анимированно обновляем layout
+        UIView.animate(withDuration: 0.3) {
+            self.mainView.collectionView.performBatchUpdates({
+                self.mainView.collectionView.collectionViewLayout.invalidateLayout()
+            }, completion: nil)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -146,6 +164,10 @@ extension MainMenuViewController: UICollectionViewDelegateFlowLayout, UICollecti
                 headerView.layer.cornerRadius = 20
                 
                 headerView.applyShadow(withHeight: headerView.bounds.height / 2)
+                
+                headerView.buttonTapAction = { [weak self] in
+                    self?.toggleSection(at: indexPath.section)
+                }
                 
                 return headerView
             case .cashback:

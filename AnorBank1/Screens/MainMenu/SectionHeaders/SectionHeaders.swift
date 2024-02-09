@@ -14,6 +14,8 @@ final class SectionHeaders: UICollectionReusableView {
     let chevronButton = UIButton(type: .system)
     let allButton = UIButton(type: .system)
     
+    var buttonTapAction: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -22,6 +24,10 @@ final class SectionHeaders: UICollectionReusableView {
         setUpTitleLabel()
         setUpChevronButton()
         setUpAllButton()
+    }
+    
+    @objc private func chevronButtonTapped() {
+        buttonTapAction?()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,6 +55,8 @@ extension SectionHeaders {
         chevronButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10).isActive = true
         chevronButton.titleLabel?.font = .systemFont(ofSize: 14)
         chevronButton.tintColor = .black
+        
+        chevronButton.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)
     }
     
     private func setUpAllButton() {
