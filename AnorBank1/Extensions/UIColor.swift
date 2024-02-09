@@ -10,7 +10,6 @@ import UIKit
 extension UIColor {
     static var appColor = AppColor()
     
-    
     static func rgb(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat) -> UIColor {
         UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }

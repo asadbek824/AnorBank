@@ -97,7 +97,7 @@ extension CardsView {
         
         addSubview(myCardView)
         
-        myCardView.setConstraint(.top, from: self, 110)
+        myCardView.setConstraint(.top, from: self, 100)
         myCardView.setConstraint(.left, from: self, 0)
         myCardView.setConstraint(.right, from: self, 0)
         myCardView.setConstraint(.bottom, from: self, 0)
